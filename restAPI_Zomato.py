@@ -93,7 +93,7 @@ else:
     
     reqDailyMenu = requests.get(host + f"dailymenu?res_id={restoId}", headers = headers)
     if reqDailyMenu.status_code == 200: # status code 200 tidak menjamin ada daily menu. maka dari itu, disisipkan kondisi lagi di dalamnya
-        menuCount = reqDailyMenu.json()["daily_menus"]
+        menuCount = reqDailyMenu.json()["daily_menus"][0]["daily_menu"]["dishes"]
 
         if menuCount != []: # jika len(menuCount) > 0
             queryCount("menu")
@@ -103,7 +103,8 @@ else:
                 print("Berikut daftar menu harian tersedia : \n")
             
             try:
-                print(f"{', '.join([x['name'] for x in menuCount])}")
+                for x in range(qC):
+                    print("{}".format(',\n'.join([menuCount[x]['dish']['name']])))
             except:
                 pass
         else: # jika len(menuCount) == 0
